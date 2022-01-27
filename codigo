@@ -1,0 +1,23 @@
+function [integ,v_real,e_t,e_a]=cuadratura_3p(f,g,a,b)
+sum=0;
+n=3;
+c=[0.5555556,0.8888889,0.5555556];
+x=[-0.774596669,0.0,0.774596669];
+
+if a>b
+  msgID = 'CUADRATURA_2P:condicion';
+  msg = 'Error';
+        
+  error(msgID,msg);
+  
+else 
+for i=1:n
+  sum=sum+c(i)*f((b-a)/2*x(i)+(a+b)/2);
+end
+integ=(b-a)/2*sum;
+f2=integral(g,a,b)/(b-a);
+v_real=integral(f,a,b);
+e_t=abs(v_real-integ)/v_real*100;
+
+e_a=abs((2^(2*n+3)*[factorial(n+1)]^4)/((2*n+3)*[factorial(2*n+2)]^3)*f2);
+end
